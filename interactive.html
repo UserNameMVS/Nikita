@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Интерактивное программирование</title>
+  </head>
+  <style>
+    h1 {
+      cursor: pointer;
+    }
+    /* #heading { */
+    /* width: 100px;
+      height: 100px;
+      background-color: red;
+      border-radius: 50%;
+    } */
+  </style>
+  <body>
+    <h1 id="heading">Кликни меня!</h1>
+    <!-- <div id="heading"></div> -->
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+    <script>
+      var direction = 'вправо';
+      var offset = 0;
+
+      $('#heading').offset({ left: offset, top: offset });
+
+      var moveHeading = function () {
+        if (direction === 'вправо') {
+          $('#heading').offset({ left: offset });
+          offset++;
+          if (offset > 200) {
+            offset = 0;
+            direction = 'вниз';
+          }
+        } else if (direction === 'вниз') {
+          $('#heading').offset({ top: offset });
+          offset++;
+          if (offset > 200) {
+            offset = 200;
+            direction = 'влево';
+          }
+        } else if (direction === 'влево') {
+          $('#heading').offset({ left: offset });
+          offset--;
+          if (offset < 0) {
+            offset = 200;
+            direction = 'вверх';
+          }
+        } else if (direction === 'вверх') {
+          $('#heading').offset({ top: offset });
+          offset--;
+          if (offset < 0) {
+            offset = 0;
+            direction = 'вправо';
+          }
+        }
+      };
+
+      var speed = 60;
+      var moveHeadingId = setInterval(moveHeading, speed);
+      var count = 5;
+      
+      function clickHeading(event) {
+        if (count > 0) {
+          clearInterval(moveHeadingId);
+          moveHeadingId = setInterval(moveHeading, (speed -= 10));
+          
+          if (count === 5 || count === 1) {
+            $('#heading').text('Кликни меня еще ' + count + ' раз!');
+          } else {
+            $('#heading').text('Кликни меня еще ' + count + ' разa!');
+          }
+          count--;
+        } else {
+          $('#heading').text('Вы победили!');
+          clearInterval(moveHeadingId);
+          count = 5;
+          speed = 30;
+        }
+      }
+      $('#heading').click(clickHeading);
+    </script>
+  </body>
+</html>
